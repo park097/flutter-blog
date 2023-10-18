@@ -67,7 +67,16 @@ class SessionUser {
     // 3. 응답
   }
 
-  Future<void> logout() async {}
+  //jwt는 로그아웃할 때 서버측으로 요청할 필요 없음
+  Future<void> logout() async {
+    this.jwt = null;
+    this.isLogin = false;
+    this.user = null;
+
+    await secureStorage.delete(key: "jwt");
+
+    Navigator.pushNamedAndRemoveUntil(mContext!, "/login", (route) => false);
+  }
 }
 
 // 2. 창고 (stateNotifier가 아니라서 - 즉 화면 빌드 X )
